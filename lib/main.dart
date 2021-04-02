@@ -24,6 +24,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'MyShop',
         theme: ThemeData(
+          errorColor: Colors.red,
           primarySwatch: Colors.indigo,
           accentColor: Colors.indigoAccent,
           fontFamily: 'Lato',
