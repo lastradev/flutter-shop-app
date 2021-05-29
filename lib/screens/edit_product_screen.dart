@@ -28,12 +28,13 @@ class _EditProductScreenState extends State<EditProductScreen> {
   }
 
   void _updateImageUrl() {
-    if (!_imageUrlFocusNode.hasFocus &&
-        (_imageUrlController.text.startsWith('https') ||
-            _imageUrlController.text.startsWith('http')) &&
-        (_imageUrlController.text.endsWith('.png') ||
-            _imageUrlController.text.endsWith('.jpg') ||
-            _imageUrlController.text.endsWith('.jpeg'))) {
+    var urlPattern =
+        r"(([\w]+:)?\/\/)?(([\d\w]|%[a-fA-f\d]{2,2})+(:([\d\w]|%[a-fA-f\d]{2,2})+)?@)?([\d\w][-\d\w]{0,253}[\d\w]\.)+[\w]{2,63}(:[\d]+)?(\/([-+_~.\d\w]|%[a-fA-f\d]{2,2})*)*(\?(&?([-+_~.\d\w]|%[a-fA-f\d]{2,2})=?)*)?(#([-+_~.\d\w]|%[a-fA-f\d]{2,2})*)?[a-zA-Z0-9_?!@#]+\.(jpg|png|jpeg)";
+    var result = new RegExp(
+      urlPattern,
+      caseSensitive: false,
+    ).hasMatch(_imageUrlController.text);
+    if (result) {
       setState(() {});
     }
   }
@@ -195,14 +196,13 @@ class _EditProductScreenState extends State<EditProductScreen> {
                         );
                       },
                       validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Please provide an image URL.';
-                        }
-                        if (!value.startsWith('http') &&
-                                !value.startsWith('https') ||
-                            (!value.endsWith('.png') &&
-                                !value.endsWith('.jpg') &&
-                                !value.endsWith('.jpeg'))) {
+                        var urlPattern =
+                            r"(([\w]+:)?\/\/)?(([\d\w]|%[a-fA-f\d]{2,2})+(:([\d\w]|%[a-fA-f\d]{2,2})+)?@)?([\d\w][-\d\w]{0,253}[\d\w]\.)+[\w]{2,63}(:[\d]+)?(\/([-+_~.\d\w]|%[a-fA-f\d]{2,2})*)*(\?(&?([-+_~.\d\w]|%[a-fA-f\d]{2,2})=?)*)?(#([-+_~.\d\w]|%[a-fA-f\d]{2,2})*)?[a-zA-Z0-9_?!@#]+\.(jpg|png|jpeg)";
+                        var result = new RegExp(
+                          urlPattern,
+                          caseSensitive: false,
+                        ).hasMatch(value!);
+                        if (!result) {
                           return 'Please enter a valid image URL';
                         }
                         return null;
