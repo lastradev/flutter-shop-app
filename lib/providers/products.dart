@@ -56,7 +56,17 @@ class Products with ChangeNotifier {
       imageUrl: product.imageUrl,
       description: product.description,
     );
-    _items.add(product);
+    _items.add(newProduct);
+    notifyListeners();
+  }
+
+  void updateProduct(String id, Product newProduct) {
+    final prodIndex = _items.indexWhere((prod) => prod.id == id);
+    if (prodIndex >= 0) {
+      _items[prodIndex] = newProduct;
+    } else {
+      print('Product id not found in products.dart updateProduct method');
+    }
     notifyListeners();
   }
 }
