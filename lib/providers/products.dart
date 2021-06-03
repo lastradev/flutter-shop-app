@@ -97,4 +97,16 @@ class Products with ChangeNotifier {
     _items.removeWhere((prod) => prod.id == id);
     notifyListeners();
   }
+
+  Future<void> fetchAndSetProducts() async {
+    final url = Uri.https(
+        'flutter-course-ab219-default-rtdb.firebaseio.com', '/products.json');
+    try {
+      final response = await http.get(url);
+      print(response.body);
+    } catch (error) {
+      print(error);
+      throw error;
+    }
+  }
 }
