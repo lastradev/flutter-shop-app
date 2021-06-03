@@ -1,6 +1,8 @@
 import 'dart:convert';
-import 'package:http/http.dart' as http;
+
 import 'package:flutter/foundation.dart';
+import 'package:http/http.dart' as http;
+
 import 'product.dart';
 
 class Products with ChangeNotifier {
@@ -77,6 +79,11 @@ class Products with ChangeNotifier {
         );
         _items.add(newProduct);
         notifyListeners();
+      },
+    ).catchError(
+      (error) {
+        print(error);
+        throw error;
       },
     );
   }
