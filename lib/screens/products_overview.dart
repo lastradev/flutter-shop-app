@@ -30,6 +30,11 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
       setState(() {
         _isLoading = false;
       });
+    }).catchError((_) {
+      // self solution
+      setState(() {
+        _isLoading = false;
+      });
     });
     super.initState();
   }
