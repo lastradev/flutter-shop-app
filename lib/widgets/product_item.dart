@@ -3,6 +3,7 @@ import 'package:flutter_shop_app/providers/cart.dart';
 import '../providers/product.dart';
 import 'package:provider/provider.dart';
 import '../screens/product_detail_screen.dart';
+import '../providers/products.dart';
 
 class ProductItem extends StatelessWidget {
   @override
@@ -31,8 +32,23 @@ class ProductItem extends StatelessWidget {
               icon: Icon(
                 product.isFavorite ? Icons.favorite : Icons.favorite_border,
               ),
-              onPressed: () {
+              onPressed: () async {
+                //TODO: Implement products async function to toggle favorite
                 product.toggleFavoriteStatus();
+                try {
+                  await Provider.of<Products>(context, listen: false)
+                      .addFavorite(product.id);
+                } catch (error) {
+                  product.toggleFavoriteStatus();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        'Could not add favorite!',
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  );
+                }
               },
               color: Theme.of(context).accentColor,
             ),

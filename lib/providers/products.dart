@@ -123,4 +123,26 @@ class Products with ChangeNotifier {
       throw HttpException('Could not delete product.');
     }
   }
+
+  Future<void> addFavorite(String id) async {
+    final url = Uri.https(
+      'flutter-course-ab219-default-rtdb.firebaseio.com',
+      '/products/$id.json',
+    );
+
+    final existingProduct = _items.firstWhere((prod) => prod.id == id);
+
+    final response = await http.patch(
+      url,
+      body: json.encode(
+        {
+          'isFavorite': existingProduct.isFavorite,
+        },
+      ),
+    );
+    if (response.statusCode >= 400) {
+      print(response.body);
+      throw HttpException('Could not add favorite.');
+    }
+  }
 }
