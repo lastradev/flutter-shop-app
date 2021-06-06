@@ -80,6 +80,9 @@ class Products with ChangeNotifier {
         'flutter-course-ab219-default-rtdb.firebaseio.com', '/products.json');
     try {
       final response = await http.get(url);
+      if (response.body == 'null') {
+        return;
+      }
       final data = json.decode(response.body) as Map<String, dynamic>;
       final List<Product> loadedProducts = [];
       data.forEach(

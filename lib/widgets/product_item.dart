@@ -33,7 +33,6 @@ class ProductItem extends StatelessWidget {
                 product.isFavorite ? Icons.favorite : Icons.favorite_border,
               ),
               onPressed: () async {
-                //TODO: Implement products async function to toggle favorite
                 product.toggleFavoriteStatus();
                 try {
                   await Provider.of<Products>(context, listen: false)
