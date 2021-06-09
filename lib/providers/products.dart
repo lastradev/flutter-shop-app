@@ -7,6 +7,17 @@ import 'product.dart';
 import '../models/http_exception.dart';
 
 class Products with ChangeNotifier {
+  var _authToken;
+  var _userId;
+
+  set authToken(String value) {
+    _authToken = value;
+  }
+
+  set userId(String value) {
+    _userId = value;
+  }
+
   List<Product> _items = [];
 
   List<Product> get items {
@@ -22,8 +33,9 @@ class Products with ChangeNotifier {
   }
 
   Future<void> addProduct(Product product) async {
-    final url = Uri.https(
-        'flutter-course-ab219-default-rtdb.firebaseio.com', '/products.json');
+    final url = Uri.parse(
+        'https://flutter-course-ab219-default-rtdb.firebaseio.com/products.json?auth=$_authToken');
+
     try {
       final response = await http.post(
         url,
@@ -33,7 +45,7 @@ class Products with ChangeNotifier {
             'description': product.description,
             'price': product.price,
             'imageUrl': product.imageUrl,
-            'isFavorite': product.isFavorite,
+            'creatorId': _userId,
           },
         ),
       );
@@ -55,10 +67,9 @@ class Products with ChangeNotifier {
   Future<void> updateProduct(String id, Product newProduct) async {
     final prodIndex = _items.indexWhere((prod) => prod.id == id);
     if (prodIndex >= 0) {
-      final url = Uri.https(
-        'flutter-course-ab219-default-rtdb.firebaseio.com',
-        '/products/$id.json',
-      );
+      final url = Uri.parse(
+          'https://flutter-course-ab219-default-rtdb.firebaseio.com/products/$id.json?auth=$_authToken');
+
       await http.patch(
         url,
         body: json.encode({
@@ -75,15 +86,24 @@ class Products with ChangeNotifier {
     }
   }
 
-  Future<void> fetchAndSetProducts() async {
-    final url = Uri.https(
-        'flutter-course-ab219-default-rtdb.firebaseio.com', '/products.json');
+  Future<void> fetchAndSetProducts({bool filterByUser = false}) async {
+    final _filterString =
+        filterByUser ? 'orderBy="creatorId"&equalTo="$_userId"' : '';
+    final url = Uri.parse(
+        'https://flutter-course-ab219-default-rtdb.firebaseio.com/products.json?auth=$_authToken&$_filterString');
+    final favoriteUrl = Uri.parse(
+        'https://flutter-course-ab219-default-rtdb.firebaseio.com/userFavorites/$_userId.json?auth=$_authToken');
     try {
       final response = await http.get(url);
       if (response.body == 'null') {
         return;
       }
+
+      final favoriteResponse = await http.get(favoriteUrl);
+
       final data = json.decode(response.body) as Map<String, dynamic>;
+      final favoriteData = json.decode(favoriteResponse.body);
+
       final List<Product> loadedProducts = [];
       data.forEach(
         (prodId, prodData) {
@@ -94,7 +114,8 @@ class Products with ChangeNotifier {
               description: prodData['description'],
               price: prodData['price'],
               imageUrl: prodData['imageUrl'],
-              isFavorite: prodData['isFavorite'],
+              isFavorite:
+                  favoriteData == null ? false : favoriteData[prodId] ?? false,
             ),
           );
         },
@@ -108,10 +129,8 @@ class Products with ChangeNotifier {
   }
 
   Future<void> deleteProduct(String id) async {
-    final url = Uri.https(
-      'flutter-course-ab219-default-rtdb.firebaseio.com',
-      '/products/$id.json',
-    );
+    final url = Uri.parse(
+        'https://flutter-course-ab219-default-rtdb.firebaseio.com/products/$id.json?auth=$_authToken');
 
     final existingProductIndex = _items.indexWhere((prod) => prod.id == id);
     var existingProduct = _items[existingProductIndex];
@@ -128,23 +147,18 @@ class Products with ChangeNotifier {
   }
 
   Future<void> addFavorite(String id) async {
-    final url = Uri.https(
-      'flutter-course-ab219-default-rtdb.firebaseio.com',
-      '/products/$id.json',
-    );
+    final url = Uri.parse(
+        'https://flutter-course-ab219-default-rtdb.firebaseio.com/userFavorites/$_userId/$id.json?auth=$_authToken');
 
+    print(url.toString());
     final existingProduct = _items.firstWhere((prod) => prod.id == id);
 
-    final response = await http.patch(
+    final response = await http.put(
       url,
-      body: json.encode(
-        {
-          'isFavorite': existingProduct.isFavorite,
-        },
-      ),
+      body: json.encode(existingProduct.isFavorite),
     );
     if (response.statusCode >= 400) {
-      print(response.body);
+      print(response);
       throw HttpException('Could not add favorite.');
     }
   }
