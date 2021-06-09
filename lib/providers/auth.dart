@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:async';
 
 import 'package:flutter/widgets.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -10,6 +11,7 @@ class Auth extends ChangeNotifier {
   var _token;
   var _expiryDate;
   var _userId;
+  var _authTimer;
 
   bool get isAuth {
     return token != '';
@@ -56,6 +58,7 @@ class Auth extends ChangeNotifier {
           ),
         ),
       );
+      _createAutoLogoutTimer();
       notifyListeners();
     } catch (error) {
       print(error);
@@ -75,6 +78,18 @@ class Auth extends ChangeNotifier {
     _token = '';
     _expiryDate = null;
     _userId = '';
+    if (_authTimer != null) {
+      _authTimer.cancel();
+      _authTimer = null;
+    }
     notifyListeners();
+  }
+
+  void _createAutoLogoutTimer() {
+    if (_authTimer != null) {
+      _authTimer.cancel();
+    }
+    final timeToExpiry = _expiryDate.difference(DateTime.now()).inSeconds;
+    _authTimer = Timer(Duration(seconds: timeToExpiry), logout);
   }
 }
