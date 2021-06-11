@@ -1,5 +1,5 @@
-import 'dart:convert';
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/widgets.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -9,10 +9,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../models/http_exception.dart';
 
 class Auth extends ChangeNotifier {
-  var _token;
-  var _expiryDate;
-  var _userId;
-  var _authTimer;
+  String? _token;
+  DateTime? _expiryDate;
+  String? _userId;
+  Timer? _authTimer;
 
   bool get isAuth {
     return token != '';
@@ -20,15 +20,15 @@ class Auth extends ChangeNotifier {
 
   String get token {
     if (_expiryDate != null &&
-        _expiryDate.isAfter(DateTime.now()) &&
+        _expiryDate!.isAfter(DateTime.now()) &&
         _token != null) {
-      return _token;
+      return _token!;
     }
     return '';
   }
 
   String get userId {
-    return _userId;
+    return _userId.toString();
   }
 
   Future<void> _authenticate(
@@ -48,14 +48,14 @@ class Auth extends ChangeNotifier {
       );
       final responseData = json.decode(response.body);
       if (responseData['error'] != null) {
-        throw HttpException(responseData['error']['message']);
+        throw HttpException(responseData['error']['message'].toString());
       }
-      _token = responseData['idToken'];
-      _userId = responseData['localId'];
+      _token = responseData['idToken'].toString();
+      _userId = responseData['localId'].toString();
       _expiryDate = DateTime.now().add(
         Duration(
           seconds: int.parse(
-            responseData['expiresIn'],
+            responseData['expiresIn'].toString(),
           ),
         ),
       );
@@ -65,12 +65,11 @@ class Auth extends ChangeNotifier {
       final userData = json.encode({
         'token': _token,
         'userId': _userId,
-        'expiryDate': _expiryDate.toIso8601String(),
+        'expiryDate': _expiryDate!.toIso8601String(),
       });
       prefs.setString('userData', userData);
     } catch (error) {
-      print(error);
-      throw error;
+      rethrow;
     }
   }
 
@@ -91,30 +90,29 @@ class Auth extends ChangeNotifier {
 
       final extractedUserData = prefs.getString('userData');
       final userData = json.decode(extractedUserData!) as Map<String, dynamic>;
-      final expiryDate = DateTime.parse(userData['expiryDate'] as String);
+      final expiryDate = DateTime.parse(userData['expiryDate'].toString());
 
       if (expiryDate.isBefore(DateTime.now())) {
         return false;
       }
 
-      _token = userData['token'];
-      _userId = userData['userId'];
+      _token = userData['token'].toString();
+      _userId = userData['userId'].toString();
       _expiryDate = expiryDate;
       notifyListeners();
       _createAutoLogoutTimer();
     } catch (error) {
-      print(error.toString());
-      throw error;
+      rethrow;
     }
     return true;
   }
 
   Future<void> logout() async {
-    _token = '';
+    _token = null;
     _expiryDate = null;
-    _userId = '';
+    _userId = null;
     if (_authTimer != null) {
-      _authTimer.cancel();
+      _authTimer!.cancel();
       _authTimer = null;
     }
     notifyListeners();
@@ -124,9 +122,9 @@ class Auth extends ChangeNotifier {
 
   void _createAutoLogoutTimer() {
     if (_authTimer != null) {
-      _authTimer.cancel();
+      _authTimer!.cancel();
     }
-    final timeToExpiry = _expiryDate.difference(DateTime.now()).inSeconds;
+    final timeToExpiry = _expiryDate!.difference(DateTime.now()).inSeconds;
     _authTimer = Timer(Duration(seconds: timeToExpiry), logout);
   }
 }

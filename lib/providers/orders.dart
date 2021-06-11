@@ -19,15 +19,23 @@ class OrderItem {
 }
 
 class Orders with ChangeNotifier {
-  var _authToken;
-  var _userId;
+  String? _authToken;
+  String? _userId;
 
   set authToken(String value) {
     _authToken = value;
   }
 
+  String get authToken {
+    return _authToken.toString();
+  }
+
   set userId(String value) {
     _userId = value;
+  }
+
+  String get userId {
+    return userId.toString();
   }
 
   List<OrderItem> _orders = [];
@@ -61,7 +69,7 @@ class Orders with ChangeNotifier {
       _orders.insert(
         0,
         OrderItem(
-          id: json.decode(response.body)['name'],
+          id: json.decode(response.body)['name'] as String,
           amount: total,
           products: cartProducts,
           dateTime: date,
@@ -69,8 +77,7 @@ class Orders with ChangeNotifier {
       );
       notifyListeners();
     } catch (error) {
-      print(error);
-      throw error;
+      rethrow;
     }
   }
 
@@ -89,15 +96,15 @@ class Orders with ChangeNotifier {
           loadedOrders.add(
             OrderItem(
               id: orderId,
-              amount: orderData['amount'],
-              dateTime: DateTime.parse(orderData['dateTime']),
+              amount: orderData['amount'] as double,
+              dateTime: DateTime.parse(orderData['dateTime'] as String),
               products: (orderData['products'] as List<dynamic>)
                   .map(
                     (item) => CartItem(
-                      id: item['id'],
-                      price: item['price'],
-                      quantity: item['quantity'],
-                      title: item['title'],
+                      id: item['id'] as String,
+                      price: item['price'] as double,
+                      quantity: item['quantity'] as int,
+                      title: item['title'] as String,
                     ),
                   )
                   .toList(),
@@ -108,8 +115,7 @@ class Orders with ChangeNotifier {
       _orders = loadedOrders.reversed.toList();
       notifyListeners();
     } catch (error) {
-      print(error);
-      throw error;
+      rethrow;
     }
   }
 }

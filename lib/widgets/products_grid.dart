@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 import '../providers/products.dart';
 import 'product_item.dart';
-import 'package:provider/provider.dart';
 
 class ProductsGrid extends StatelessWidget {
   final bool showFavs;
 
-  ProductsGrid(this.showFavs);
+  const ProductsGrid({required this.showFavs});
   @override
   Widget build(BuildContext context) {
     final productsData = Provider.of<Products>(context);
@@ -18,7 +19,7 @@ class ProductsGrid extends StatelessWidget {
         value: products[i],
         child: ProductItem(),
       ),
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         childAspectRatio: 3 / 2,
         crossAxisSpacing: 10,

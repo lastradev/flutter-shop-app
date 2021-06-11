@@ -8,15 +8,15 @@ import 'providers/orders.dart';
 import 'providers/products.dart';
 import 'screens/auth_screen.dart';
 import 'screens/cart_screen.dart';
-import 'screens/splash_screen.dart';
 import 'screens/edit_product_screen.dart';
 import 'screens/orders_screen.dart';
 import 'screens/product_detail_screen.dart';
 import 'screens/products_overview.dart';
+import 'screens/splash_screen.dart';
 import 'screens/user_products_screen.dart';
 
 Future main() async {
-  dotenv.load(fileName: ".env");
+  dotenv.load();
   runApp(MyApp());
 }
 
@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProxyProvider<Auth, Products>(
           create: (_) => Products(),
           update: (_, auth, products) {
-            products!..authToken = auth.token;
+            products!.authToken = auth.token;
             return products..userId = auth.userId;
           },
         ),
@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProxyProvider<Auth, Orders>(
           create: (_) => Orders(),
           update: (_, auth, orders) {
-            orders!..authToken = auth.token;
+            orders!.authToken = auth.token;
             return orders..userId = auth.userId;
           },
         ),

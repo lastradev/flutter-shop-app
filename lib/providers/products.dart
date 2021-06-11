@@ -3,19 +3,27 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
-import 'product.dart';
 import '../models/http_exception.dart';
+import 'product.dart';
 
 class Products with ChangeNotifier {
-  var _authToken;
-  var _userId;
+  String? _authToken;
+  String? _userId;
 
   set authToken(String value) {
     _authToken = value;
   }
 
+  String get authToken {
+    return _authToken.toString();
+  }
+
   set userId(String value) {
     _userId = value;
+  }
+
+  String get userId {
+    return userId.toString();
   }
 
   List<Product> _items = [];
@@ -50,7 +58,7 @@ class Products with ChangeNotifier {
         ),
       );
       final newProduct = Product(
-        id: json.decode(response.body)['name'],
+        id: json.decode(response.body)['name'] as String,
         title: product.title,
         price: product.price,
         imageUrl: product.imageUrl,
@@ -59,8 +67,7 @@ class Products with ChangeNotifier {
       _items.add(newProduct);
       notifyListeners();
     } catch (error) {
-      print(error);
-      throw error;
+      rethrow;
     }
   }
 
@@ -81,8 +88,6 @@ class Products with ChangeNotifier {
       );
       _items[prodIndex] = newProduct;
       notifyListeners();
-    } else {
-      print('Product id not found in products.dart updateProduct method');
     }
   }
 
@@ -110,12 +115,13 @@ class Products with ChangeNotifier {
           loadedProducts.add(
             Product(
               id: prodId,
-              title: prodData['title'],
-              description: prodData['description'],
-              price: prodData['price'],
-              imageUrl: prodData['imageUrl'],
-              isFavorite:
-                  favoriteData == null ? false : favoriteData[prodId] ?? false,
+              title: prodData['title'] as String,
+              description: prodData['description'] as String,
+              price: prodData['price'] as double,
+              imageUrl: prodData['imageUrl'] as String,
+              isFavorite: (favoriteData == null
+                  ? false
+                  : favoriteData[prodId] ?? false) as bool,
             ),
           );
         },
@@ -123,8 +129,7 @@ class Products with ChangeNotifier {
       _items = loadedProducts;
       notifyListeners();
     } catch (error) {
-      print(error);
-      throw error;
+      rethrow;
     }
   }
 
@@ -133,7 +138,7 @@ class Products with ChangeNotifier {
         'https://flutter-course-ab219-default-rtdb.firebaseio.com/products/$id.json?auth=$_authToken');
 
     final existingProductIndex = _items.indexWhere((prod) => prod.id == id);
-    var existingProduct = _items[existingProductIndex];
+    final existingProduct = _items[existingProductIndex];
 
     _items.removeAt(existingProductIndex);
     notifyListeners();
@@ -150,7 +155,6 @@ class Products with ChangeNotifier {
     final url = Uri.parse(
         'https://flutter-course-ab219-default-rtdb.firebaseio.com/userFavorites/$_userId/$id.json?auth=$_authToken');
 
-    print(url.toString());
     final existingProduct = _items.firstWhere((prod) => prod.id == id);
 
     final response = await http.put(
@@ -158,7 +162,6 @@ class Products with ChangeNotifier {
       body: json.encode(existingProduct.isFavorite),
     );
     if (response.statusCode >= 400) {
-      print(response);
       throw HttpException('Could not add favorite.');
     }
   }

@@ -60,9 +60,9 @@ class _EditProductScreenState extends State<EditProductScreen> {
   }
 
   void _updateImageUrl() {
-    var urlPattern =
+    const urlPattern =
         r"(([\w]+:)?\/\/)?(([\d\w]|%[a-fA-f\d]{2,2})+(:([\d\w]|%[a-fA-f\d]{2,2})+)?@)?([\d\w][-\d\w]{0,253}[\d\w]\.)+[\w]{2,63}(:[\d]+)?(\/([-+_~.\d\w]|%[a-fA-f\d]{2,2})*)*(\?(&?([-+_~.\d\w]|%[a-fA-f\d]{2,2})=?)*)?(#([-+_~.\d\w]|%[a-fA-f\d]{2,2})*)?[a-zA-Z0-9_?!@#%]+\.(jpg|png|jpeg)";
-    var result = new RegExp(
+    final result = RegExp(
       urlPattern,
       caseSensitive: false,
     ).hasMatch(_imageUrlController.text);
@@ -72,7 +72,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
   }
 
   Future<void> _saveForm() async {
-    var isValid = _form.currentState!.validate();
+    final isValid = _form.currentState!.validate();
     if (isValid) {
       _form.currentState!.save();
       if (_editedProduct.id.isNotEmpty) {
@@ -88,14 +88,14 @@ class _EditProductScreenState extends State<EditProductScreen> {
           await showDialog(
             context: context,
             builder: (ctx) => AlertDialog(
-              title: Text('An error occured!'),
-              content: Text('Something went wrong.'),
+              title: const Text('An error occured!'),
+              content: const Text('Something went wrong.'),
               actions: [
                 TextButton(
                   onPressed: () {
                     Navigator.of(ctx).pop();
                   },
-                  child: Text('Okay'),
+                  child: const Text('Okay'),
                 )
               ],
             ),
@@ -121,16 +121,16 @@ class _EditProductScreenState extends State<EditProductScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Edit Product'),
+        title: const Text('Edit Product'),
         actions: [
           IconButton(
-            icon: Icon(Icons.save),
+            icon: const Icon(Icons.save),
             onPressed: _saveForm,
           ),
         ],
       ),
       body: _isLoading
-          ? Center(
+          ? const Center(
               child: CircularProgressIndicator(),
             )
           : Padding(
@@ -141,7 +141,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                   children: [
                     TextFormField(
                       initialValue: _initValues['title'],
-                      decoration: InputDecoration(labelText: 'Title'),
+                      decoration: const InputDecoration(labelText: 'Title'),
                       textInputAction: TextInputAction.next,
                       onFieldSubmitted: (_) {
                         FocusScope.of(context).requestFocus(_priceFocusNode);
@@ -165,7 +165,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                     ),
                     TextFormField(
                       initialValue: _initValues['price'],
-                      decoration: InputDecoration(labelText: 'Price'),
+                      decoration: const InputDecoration(labelText: 'Price'),
                       textInputAction: TextInputAction.next,
                       keyboardType: TextInputType.number,
                       focusNode: _priceFocusNode,
@@ -198,7 +198,8 @@ class _EditProductScreenState extends State<EditProductScreen> {
                     ),
                     TextFormField(
                       initialValue: _initValues['description'],
-                      decoration: InputDecoration(labelText: 'Description'),
+                      decoration:
+                          const InputDecoration(labelText: 'Description'),
                       maxLines: 3,
                       keyboardType: TextInputType.multiline,
                       focusNode: _descriptionFocusNode,
@@ -228,18 +229,17 @@ class _EditProductScreenState extends State<EditProductScreen> {
                         Container(
                           width: 100,
                           height: 100,
-                          margin: EdgeInsets.only(
+                          margin: const EdgeInsets.only(
                             top: 8,
                             right: 10,
                           ),
                           decoration: BoxDecoration(
                             border: Border.all(
-                              width: 1,
                               color: Colors.grey,
                             ),
                           ),
                           child: _imageUrlController.text.isEmpty
-                              ? Text('Enter a URL')
+                              ? const Text('Enter a URL')
                               : FittedBox(
                                   child: Image.network(
                                     _imageUrlController.text,
@@ -249,7 +249,8 @@ class _EditProductScreenState extends State<EditProductScreen> {
                         ),
                         Expanded(
                           child: TextFormField(
-                            decoration: InputDecoration(labelText: 'Image URL'),
+                            decoration:
+                                const InputDecoration(labelText: 'Image URL'),
                             keyboardType: TextInputType.url,
                             textInputAction: TextInputAction.done,
                             controller: _imageUrlController,
@@ -269,9 +270,9 @@ class _EditProductScreenState extends State<EditProductScreen> {
                               );
                             },
                             validator: (value) {
-                              var urlPattern =
+                              const urlPattern =
                                   r"(([\w]+:)?\/\/)?(([\d\w]|%[a-fA-f\d]{2,2})+(:([\d\w]|%[a-fA-f\d]{2,2})+)?@)?([\d\w][-\d\w]{0,253}[\d\w]\.)+[\w]{2,63}(:[\d]+)?(\/([-+_~.\d\w]|%[a-fA-f\d]{2,2})*)*(\?(&?([-+_~.\d\w]|%[a-fA-f\d]{2,2})=?)*)?(#([-+_~.\d\w]|%[a-fA-f\d]{2,2})*)?[a-zA-Z0-9_?!@#%]+\.(jpg|png|jpeg)";
-                              var result = new RegExp(
+                              final result = RegExp(
                                 urlPattern,
                                 caseSensitive: false,
                               ).hasMatch(value!);
