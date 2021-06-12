@@ -21,8 +21,8 @@ class AuthScreen extends StatelessWidget {
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  const Color.fromRGBO(215, 117, 255, 1).withOpacity(0.5),
-                  const Color.fromRGBO(255, 188, 117, 1).withOpacity(0.9),
+                  const Color.fromRGBO(0, 180, 219, 1).withOpacity(1.0),
+                  const Color.fromRGBO(0, 131, 176, 1).withOpacity(1.0),
                 ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
@@ -44,10 +44,9 @@ class AuthScreen extends StatelessWidget {
                           vertical: 8.0, horizontal: 94.0),
                       transform: Matrix4.rotationZ(-8 * pi / 180)
                         ..translate(-10.0),
-                      // ..translate(-10.0),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
-                        color: Colors.deepOrange.shade900,
+                        color: Colors.white30,
                         boxShadow: const [
                           BoxShadow(
                             blurRadius: 8,
@@ -56,16 +55,28 @@ class AuthScreen extends StatelessWidget {
                           )
                         ],
                       ),
-                      child: Text(
-                        'MyShop',
-                        style: TextStyle(
-                          color: Theme.of(context)
-                              .accentTextTheme
-                              .headline6!
-                              .color,
-                          fontSize: 50,
-                          fontFamily: 'Anton',
-                          fontWeight: FontWeight.normal,
+                      child: SizedBox(
+                        width: 160,
+                        height: 50,
+                        child: Row(
+                          children: const [
+                            Text(
+                              'MyShop ',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 30,
+                                fontFamily: 'FredokaOne',
+                              ),
+                            ),
+                            Text(
+                              '',
+                              style: TextStyle(
+                                fontSize: 30,
+                                fontFamily: 'FontAwesome',
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
@@ -209,9 +220,15 @@ class _AuthCardState extends State<AuthCard>
         borderRadius: BorderRadius.circular(10.0),
       ),
       elevation: 8.0,
-      child: Container(
-        height: _heightAnimation!.value.height,
-        constraints: BoxConstraints(minHeight: _heightAnimation!.value.height),
+      child: AnimatedContainer(
+        curve: Curves.easeInOutCubic,
+        duration: const Duration(
+          milliseconds: 800,
+        ),
+        height: _authMode == AuthMode.signup ? 320 : 260,
+        constraints: BoxConstraints(
+          minHeight: _authMode == AuthMode.signup ? 320 : 260,
+        ),
         width: deviceSize.width * 0.75,
         padding: const EdgeInsets.all(16.0),
         child: Form(

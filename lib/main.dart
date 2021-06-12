@@ -47,7 +47,7 @@ class MyApp extends StatelessWidget {
           title: 'MyShop',
           theme: ThemeData(
             errorColor: Colors.red,
-            primarySwatch: Colors.indigo,
+            primarySwatch: Colors.blue,
             accentColor: Colors.indigoAccent,
             fontFamily: 'Lato',
           ),
