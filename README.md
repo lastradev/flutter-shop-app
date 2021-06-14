@@ -1,16 +1,56 @@
-# flutter_shop_app
+<p align="center">
+  <a href="https://flutter.io/">
+    <img src="https://diegolaballos.com/files/images/flutter-icon.jpg" alt="Logo" width=72 height=72>
+  </a>
 
-A new Flutter project.
+  <h3 align="center">Flutter Shop App</h3>
 
-## Getting Started
+  <p align="center">
+    Shop app with Flutter that uses Firebase
+    <br>
+    Project made following Maximilian Schwarzmüller's <a href="https://pro.academind.com/p/learn-flutter-dart-to-build-ios-android-apps-2020">Academind Flutter Course</a> 🎯
+    <br>
+    <br>
+    
+  </p>
+</p>
 
-This project is a starting point for a Flutter application.
+<p>
+<img src="https://i.imgur.com/P2plCR6.png" alt="app 1" width="300"/><img src="https://i.imgur.com/hlthFek.png" alt="app 1" width="300"/><img src="https://i.imgur.com/9y088xW.png" alt="app 1" width="300"/><img src="https://i.imgur.com/3WVpv4Z.png" alt="app 1" width="300"/><img src="https://i.imgur.com/WYpVKsG.png" alt="app 1" width="300"/>
+</p>
 
-A few resources to get you started if this is your first Flutter project:
+## Quick start
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+Get the Flutter Sdk: [official documentation](https://flutter.dev/docs/get-started/install).
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Clone this repository:
+```
+git clone https://github.com/lastra-dev/flutter-shop-app/
+```
+
+Get dependencies inside project directory:
+```
+flutter pub get
+```
+Create a Firebase project with email authentication  
+Make .env file with your [Firebase Realtime Database](https://firebase.google.com/docs/database) URL and your Firebase project WEB API KEY (see .env.example)
+
+
+## What's included
+
+* CRUD: create, read, update and delete operations with Firebase!
+* Responsive layout
+* Linting with 'Linter' dart package
+* Environment variables with 'flutter_dotenv' dart package
+* Async http requests to Firebase REST API with 'http' dart package (firebase package should be used instead, I used http package to learn how to work with different backends)
+* Animations: Hero, SlideTransition and FadeTransition
+
+### Firebase
+
+This repo is using Firebase. I use realtime database to save user products and orders and authentication to signup users to the app.
+
+### Animations
+I use AnimationControllers, AnimationContainers and route animations to run this animations:
+* Hero Animation
+* SlideTransition
+* FadeTransition
