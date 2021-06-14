@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
-import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:http/http.dart' as http;
 
 import '../models/http_exception.dart';
 import 'product.dart';
@@ -93,7 +93,6 @@ class Products with ChangeNotifier {
   }
 
   Future<void> fetchAndSetProducts({bool filterByUser = false}) async {
-    print(dotenv.env['DB_URL']);
     final _filterString =
         filterByUser ? 'orderBy="creatorId"&equalTo="$_userId"' : '';
     final url = Uri.parse(
