@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'cart.dart';
 
@@ -46,7 +47,7 @@ class Orders with ChangeNotifier {
 
   Future<void> addOrder(List<CartItem> cartProducts, double total) async {
     final url = Uri.parse(
-        'https://flutter-course-ab219-default-rtdb.firebaseio.com/orders/$_userId.json?auth=$_authToken');
+        '${dotenv.env['DB_URL']}orders/$_userId.json?auth=$_authToken');
     final date = DateTime.now();
     try {
       final response = await http.post(
@@ -83,7 +84,7 @@ class Orders with ChangeNotifier {
 
   Future<void> fetchAndSetOrders() async {
     final url = Uri.parse(
-        'https://flutter-course-ab219-default-rtdb.firebaseio.com/orders/$_userId.json?auth=$_authToken');
+        '${dotenv.env['DB_URL']}orders/$_userId.json?auth=$_authToken');
     try {
       final response = await http.get(url);
       if (response.body == 'null') {

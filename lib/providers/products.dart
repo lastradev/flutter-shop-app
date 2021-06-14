@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import '../models/http_exception.dart';
 import 'product.dart';
@@ -41,8 +42,8 @@ class Products with ChangeNotifier {
   }
 
   Future<void> addProduct(Product product) async {
-    final url = Uri.parse(
-        'https://flutter-course-ab219-default-rtdb.firebaseio.com/products.json?auth=$_authToken');
+    final url =
+        Uri.parse('${dotenv.env['DB_URL']}products.json?auth=$_authToken');
 
     try {
       final response = await http.post(
@@ -75,7 +76,7 @@ class Products with ChangeNotifier {
     final prodIndex = _items.indexWhere((prod) => prod.id == id);
     if (prodIndex >= 0) {
       final url = Uri.parse(
-          'https://flutter-course-ab219-default-rtdb.firebaseio.com/products/$id.json?auth=$_authToken');
+          '${dotenv.env['DB_URL']}products/$id.json?auth=$_authToken');
 
       await http.patch(
         url,
@@ -92,12 +93,13 @@ class Products with ChangeNotifier {
   }
 
   Future<void> fetchAndSetProducts({bool filterByUser = false}) async {
+    print(dotenv.env['DB_URL']);
     final _filterString =
         filterByUser ? 'orderBy="creatorId"&equalTo="$_userId"' : '';
     final url = Uri.parse(
-        'https://flutter-course-ab219-default-rtdb.firebaseio.com/products.json?auth=$_authToken&$_filterString');
+        '${dotenv.env['DB_URL']}products.json?auth=$_authToken&$_filterString');
     final favoriteUrl = Uri.parse(
-        'https://flutter-course-ab219-default-rtdb.firebaseio.com/userFavorites/$_userId.json?auth=$_authToken');
+        '${dotenv.env['DB_URL']}userFavorites/$_userId.json?auth=$_authToken');
     try {
       final response = await http.get(url);
       if (response.body == 'null') {
@@ -134,8 +136,8 @@ class Products with ChangeNotifier {
   }
 
   Future<void> deleteProduct(String id) async {
-    final url = Uri.parse(
-        'https://flutter-course-ab219-default-rtdb.firebaseio.com/products/$id.json?auth=$_authToken');
+    final url =
+        Uri.parse('${dotenv.env['DB_URL']}products/$id.json?auth=$_authToken');
 
     final existingProductIndex = _items.indexWhere((prod) => prod.id == id);
     final existingProduct = _items[existingProductIndex];
@@ -153,7 +155,7 @@ class Products with ChangeNotifier {
 
   Future<void> addFavorite(String id) async {
     final url = Uri.parse(
-        'https://flutter-course-ab219-default-rtdb.firebaseio.com/userFavorites/$_userId/$id.json?auth=$_authToken');
+        '${dotenv.env['DB_URL']}userFavorites/$_userId/$id.json?auth=$_authToken');
 
     final existingProduct = _items.firstWhere((prod) => prod.id == id);
 
