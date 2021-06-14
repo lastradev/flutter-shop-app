@@ -16,7 +16,7 @@
 </p>
 
 <p>
-<img src="https://i.imgur.com/P2plCR6.png" alt="app 1" width="300"/><img src="https://i.imgur.com/hlthFek.png" alt="app 1" width="300"/><img src="https://i.imgur.com/9y088xW.png" alt="app 1" width="300"/><img src="https://i.imgur.com/3WVpv4Z.png" alt="app 1" width="300"/><img src="https://i.imgur.com/WYpVKsG.png" alt="app 1" width="300"/>
+<img src="https://i.imgur.com/P2plCR6.png" alt="app 1" width="200"/><img src="https://i.imgur.com/hlthFek.png" alt="app 1" width="200"/><img src="https://i.imgur.com/9y088xW.png" alt="app 1" width="200"/><img src="https://i.imgur.com/3WVpv4Z.png" alt="app 1" width="200"/><img src="https://i.imgur.com/WYpVKsG.png" alt="app 1" width="200"/>
 </p>
 
 ## Quick start
