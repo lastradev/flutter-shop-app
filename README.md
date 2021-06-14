@@ -21,6 +21,12 @@
 
 ## Quick start
 
+Try this application!  
+[Download APK](https://github.com/lastra-dev/flutter-shop-app/releases)
+
+Or use it as a template...
+***
+
 Get the Flutter Sdk: [official documentation](https://flutter.dev/docs/get-started/install).
 
 Clone this repository:
