@@ -19,13 +19,12 @@
 <img src="https://i.imgur.com/P2plCR6.png" alt="app 1" width="250"/><img src="https://i.imgur.com/hlthFek.png" alt="app 1" width="250"/><img src="https://i.imgur.com/9y088xW.png" alt="app 1" width="250"/><img src="https://i.imgur.com/3WVpv4Z.png" alt="app 1" width="250"/><img src="https://i.imgur.com/WYpVKsG.png" alt="app 1" width="250"/>
 </p>
 
-## Quick start
+## Quickstart
 
 Try this application!  
 [Download APK](https://github.com/lastra-dev/flutter-shop-app/releases)
 
-Or use it as a template...
-***
+Or use it as a template:
 
 Get the Flutter Sdk: [official documentation](https://flutter.dev/docs/get-started/install).
 
@@ -34,7 +33,7 @@ Clone this repository:
 git clone https://github.com/lastra-dev/flutter-shop-app/
 ```
 
-Get dependencies inside project directory:
+Get dependencies inside the project directory:
 ```
 flutter pub get
 ```
@@ -48,15 +47,15 @@ Make .env file with your [Firebase Realtime Database](https://firebase.google.co
 * Responsive layout
 * Linting with 'Linter' dart package
 * Environment variables with 'flutter_dotenv' dart package
-* Async http requests to Firebase REST API with 'http' dart package (firebase package should be used instead, I used http package to learn how to work with different backends)
+* Async HTTP requests to Firebase REST API with HTTP dart package (You should use the firebase package instead. I used HTTP package to learn how to work with different backends)
 * Animations: Hero, SlideTransition and FadeTransition
 
 ### Firebase
 
-This repo is using Firebase. I use realtime database to save user products and orders and authentication to signup users to the app.
+This repo is using Firebase. It uses the Realtime Database to save user products and orders and authentication to signup users to the app.
 
 ### Animations
-I use AnimationControllers, AnimationContainers and route animations to run this animations:
+I use AnimationControllers, AnimationContainers, and route animations to run these animations:
 * Hero Animation
 * SlideTransition
 * FadeTransition
