@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://flutter.io/">
-    <img src="https://diegolaballos.com/files/images/flutter-icon.jpg" alt="Logo" width=72 height=72>
+    <img src="https://cdn.icon-icons.com/icons2/2107/PNG/512/file_type_flutter_icon_130599.png" alt="Logo" width=72 height=72>
   </a>
 
   <h3 align="center">Flutter Shop App</h3>
@@ -22,7 +22,8 @@
 ## Quickstart
 
 Try this application!  
-[Download APK](https://github.com/lastra-dev/flutter-shop-app/releases)
+[Download APK](https://github.com/lastra-dev/flutter-shop-app/releases)  
+[Try the web app](https://flutter-course-ab219.web.app/#/)
 
 Or use it as a template:
 
