@@ -23,7 +23,6 @@
 
 Try this application!  
 [Download APK](https://github.com/lastra-dev/flutter-shop-app/releases)  
-[Try the web app](https://flutter-course-ab219.web.app/#/)
 
 Or use it as a template:
 
